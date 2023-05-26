@@ -1,6 +1,7 @@
  package automate_onboarding;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterSuite;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.annotations.BeforeSuite;
 import org.openqa.selenium.By;
@@ -9,23 +10,24 @@ import org.openqa.selenium.WebDriver;
 import org.testng.annotations.Test;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-// Running without Automate
+// Running with Automate
 public class BaseClass{
 	
 	public WebDriver driver;
-	@BeforeSuite
-   public void setUp() throws Exception {
+	
+	@BeforeMethod(alwaysRun = true)
+    public void setUp() throws Exception {
        ChromeOptions options = new ChromeOptions();
        options.addArguments("start-maximized");
        driver = new ChromeDriver(options);
        driver.manage().window().maximize();
-       driver.get("https://www.browserstack.com/users/sign_in");
-      // Thread.sleep(25000);
    }
     
 	
     @Test(priority=1)
     public void LogintoPortal() throws InterruptedException {
+        driver.get("https://www.browserstack.com/users/sign_in");
+        // Thread.sleep(25000);
     	// driver.findElement(By.id("user_email_login")).sendKeys(Keys.CONTROL + "a");
         //driver.findElement(By.id("user_password")).sendKeys(Keys.CONTROL + "a");
     //	 driver.findElement(By.id("user_email_login")).clear();
@@ -71,7 +73,7 @@ public class BaseClass{
 	    	 assert errMsg.equals(checkErrMsg);
 	    }
 
-	@AfterSuite
+	@AfterMethod(alwaysRun = true)
     public void tearDown() throws Exception {
         driver.quit();
     }
